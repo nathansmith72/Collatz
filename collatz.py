@@ -3,7 +3,7 @@ past_numbers_dict = {}
 
 def get_step(x):
     if x % 2 == 0:
-        return x / 2
+        return int(x / 2)
     return (x * 3) + 1
 
 
@@ -18,9 +18,20 @@ def get_path(entry):
     return entries
 
 
+def update_past_numbers_dict(x, path):
+    past_numbers_dict[x] = path
+    for index, number in enumerate(path):
+        if number not in past_numbers_dict.keys():
+            past_numbers_dict[number] = path[index:]
+
+
 x = 1
-while x <= 10000:
-    past_numbers_dict[x] = get_path(x)
+while x <= 100:
+    path = get_path(x)
+    update_past_numbers_dict(x, path)
     x += 1
-for k,v in past_numbers_dict.items():
-    print(f'{k}: {v}')
+
+for key in sorted(past_numbers_dict.keys()):
+    print(f'{key}: {past_numbers_dict[key]}')
+
+print(f'Total entries: {len(past_numbers_dict.keys())}')
